@@ -15,6 +15,26 @@ async function getMovies(url) {
   console.log(respData);
 }
 
+function getClassByRate(rating) {
+  if (rating >= 7) {
+    return 'green';
+  } else if (rating >= 5) {
+    return 'orange';
+  } else {
+    return 'red';
+  }
+}
+
+function convertRating(rating) {
+  ratingParse = parseFloat(rating);
+  if (ratingParse > 10) {
+    ratingParse = ratingParse / 10;
+    return parseFloat(ratingParse.toFixed(1));
+  } else {
+    return rating;
+  }
+}
+
 function showMovies(data) {
   const moviesEl = document.querySelector(".movies");
 
@@ -34,8 +54,8 @@ function showMovies(data) {
         <div class="movie__category">
           ${movie.genres.map((genre) => ` ${genre.genre}`)}
         </div>
-        <div class="movie__average movie__average--green">
-          ${movie.rating}
+        <div class="movie__average movie__average--${getClassByRate(convertRating(movie.rating))}">
+          ${convertRating(movie.rating)}
         </div>
       </div>
     `;
