@@ -1,5 +1,24 @@
 const API_KEY = '8c8e1a50-6322-4135-8875-5d40a5420d86',
-  API_URL_POPULAR = 'https://kinopoiskapiunofficial.tech/api/v2.2/films/top?type=TOP_100_POPULAR_FILMS&page=1'
+  API_URL_POPULAR = 'https://kinopoiskapiunofficial.tech/api/v2.2/films/top?type=TOP_100_POPULAR_FILMS&page=1',
+  API_URL_SEARCH = 'https://kinopoiskapiunofficial.tech/api/v2.1/films/search-by-keyword?keyword='
+
+const form = document.querySelector('form');
+const search = document.querySelector('.header__search');
+
+function hundlerForm(form, search, urlSearch) {
+  form.addEventListener('submit', (e) => {
+    e.preventDefault();
+
+    const apiUrlSearch = `${urlSearch}${search.value}`;
+
+    if (apiUrlSearch) {
+      getMovies(apiUrlSearch);
+      search.value = ''
+    }
+  })
+}
+
+hundlerForm(form, search, API_URL_SEARCH)
 
 getMovies(API_URL_POPULAR)
 
@@ -37,6 +56,8 @@ function convertRating(rating) {
 
 function showMovies(data) {
   const moviesEl = document.querySelector(".movies");
+
+  document.querySelector('.movies').innerHTML = '';
 
   data.films.forEach(movie => {
     const movieEl = document.createElement('div');
